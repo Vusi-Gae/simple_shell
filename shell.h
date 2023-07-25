@@ -121,4 +121,11 @@ int my_exit_shell(infor_t *infor);
 int change_current_directory(infor_t *infor);
 int show_help_message(infor_t *infor);
 
+/* _builtin0.c */
+int display_history(infor_t *infor);
+int unset_alias(infor_t *infor, char *alias_str);
+int set_alias(infor_t *infor, char *alias_str);
+int print_alias(list_t *alias_node);
+int manage_alias(infor_t *infor);
+
 #endif
