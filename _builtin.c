@@ -34,46 +34,47 @@ int my_exit_shell(infor_t *infor)
  */
 int change_current_directory(infor_t *infor)
 {
-    char *current_dir, *target_dir, buffer[1024];
-    int chdir_ret;
+	char *current_dir, *target_dir, buffer[1024];
+	int chdir_ret;
 
-    current_dir = getcwd(buffer, 1024);
-    if (!current_dir)
-        _puts("TODO: >>getcwd failure emsg here<<\n");
-    if (!infor->argv[1])
-    {
-        target_dir = _getenv(infor, "HOME=");
-        if (!target_dir)
-            chdir_ret = chdir((target_dir = _getenv(infor, "PWD=")) ? target_dir : "/");
-        else
-            chdir_ret = chdir(target_dir);
-    }
-    else if (_strcmp(infor->argv[1], "-") == 0)
-    {
-        if (!_getenv(infor, "OLDPWD="))
-        {
-            _puts(current_dir);
-            _putchar('\n');
-            return (1);
-        }
-        _puts(_getenv(infor, "OLDPWD="));
-        _putchar('\n');
-        chdir_ret = chdir((target_dir = _getenv(infor, "OLDPWD=")) ? target_dir : "/");
-    }
-    else
-        chdir_ret = chdir(infor->argv[1]);
+	current_dir = getcwd(buffer, 1024);
+	if (!current_dir)
+		_puts("TODO: >>getcwd failure emsg here<<\n");
+	if (!infor->argv[1])
+	{
+		target_dir = _getenv(infor, "HOME=");
+		if (!target_dir)
+			chdir_ret = chdir((target_dir = _getenv(infor, "PWD=")) ? target_dir : "/");
+		else
+			chdir_ret = chdir(target_dir);
+	}
+	else if (_strcmp(infor->argv[1], "-") == 0)
+	{
+		if (!_getenv(infor, "OLDPWD="))
+		{
+			_puts(current_dir);
+			_putchar('\n');
+			return (1);
+		}
+		_puts(_getenv(infor, "OLDPWD="));
+		_putchar('\n');
+		chdir_ret = /*Betty can be a bi** */ 
+			chdir((target_dir = _getenv(infor, "OLDPWD=")) ? target_dir : "/");
+	}
+	else
+		chdir_ret = chdir(infor->argv[1]);
 
-    if (chdir_ret == -1)
-    {
-        print_error(infor, "can't cd to ");
-        _eputs(infor->argv[1]), _eputchar('\n');
-    }
-    else
-    {
-        _setenv(infor, "OLDPWD", _getenv(infor, "PWD="));
-        _setenv(infor, "PWD", getcwd(buffer, 1024));
-    }
-    return (0);
+	if (chdir_ret == -1)
+	{
+		print_error(infor, "can't cd to ");
+		_eputs(infor->argv[1]), _eputchar('\n');
+	}
+	else
+	{
+		_setenv(infor, "OLDPWD", _getenv(infor, "PWD="));
+		_setenv(infor, "PWD", getcwd(buffer, 1024));
+	}
+	return (0);
 }
 
 /**

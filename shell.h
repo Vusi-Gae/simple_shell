@@ -13,8 +13,8 @@
 #include <errno.h>
 
 /* Buffer sizes for read and write operations */
-#define BUFFER_SIZE_READ	2024
-#define BUFFER_SIZE_WRITE	2024
+#define BUFFER_SIZE_READ	1024
+#define BUFFER_SIZE_WRITE	1024
 #define BUF_FLUSH_IMMEDIATELY	-1
 
 /* Command chaining types */
@@ -115,5 +115,10 @@ int check_interactive_mode(ShellInfo_t *infor);
 int is_character_delimiter(char c, char *delimiter_string);
 int is_alphabetic(int c);
 int string_to_integer(char *str);
+
+/* _builtin.c */
+int my_exit_shell(infor_t *infor);
+int change_current_directory(infor_t *infor);
+int show_help_message(infor_t *infor);
 
 #endif
