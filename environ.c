@@ -1,87 +1,101 @@
-#include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Definition of the custom data structure infor_t.
+typedef struct infor_t {
+    int argc;
+    char **argv;
+    char **environ;
+    // Add any other required members here.
+} infor_t;
+
+// Definition of the linked list node.
+typedef struct list_t {
+    char *str;
+    struct list_t *next;
+} list_t;
+
+// Function declarations.
+void print_list_str(list_t *head);
+char *starts_with(const char *str, const char *prefix);
+void _eputs(const char *str);
+void add_node_end(list_t **head, char *str, int len);
 
 /**
- * print_infor_t - Prints the current infor_t variables.
- * @infor: Structure containing potential arguments.
- * Return: Always 0
+ * print_list_str - Print the strings in the linked list.
+ * @head: Pointer to the head of the linked list.
  */
-int print_infor_t(infor_t *infor)
+void print_list_str(list_t *head)
 {
-    print_list_str(infor->informent_list);
-    return (0);
-}
-
-/**
- * get_infor_t_value - Gets the value of an infor_t variable.
- * @infor: Structure containing potential arguments.
- * @name: The name of the infor_t variable to retrieve.
- * Return: The value of the specified infor_t variable if found, otherwise returns NULL.
- */
-char *get_infor_t_value(infor_t *infor, const char *name)
-{
-    list_t *node = infor->informent_list;
-    char *value;
-
-    while (node)
+    list_t *current = head;
+    while (current != NULL)
     {
-        value = starts_with(node->str, name);
-        if (value && *value)
-            return (value);
-        node = node->next;
+        printf("%s\n", current->str);
+        current = current->next;
     }
-    return (NULL);
 }
 
 /**
- * set_infor_t_variable - Initialize a new infor_t variable or modify an existing one.
- * @infor: Structure containing potential arguments.
- * Return: Always 0 on success, or 1 if the number of arguments is incorrect.
+ * starts_with - Check if a string starts with a given prefix.
+ * @str: The string to check.
+ * @prefix: The prefix to search for.
+ * Return: If the string starts with the prefix, return a pointer to the start of the prefix in the string.
+ *         Otherwise, return NULL.
  */
-int set_infor_t_variable(infor_t *infor)
+char *starts_with(const char *str, const char *prefix)
 {
-    if (infor->argc != 3)
+    size_t str_len = strlen(str);
+    size_t prefix_len = strlen(prefix);
+
+    if (str_len < prefix_len)
+        return NULL;
+
+    if (strncmp(str, prefix, prefix_len) == 0)
+        return (char *)str;
+
+    return NULL;
+}
+
+/**
+ * _eputs - Print an error message to stderr.
+ * @str: The error message string to print.
+ */
+void _eputs(const char *str)
+{
+    fprintf(stderr, "%s", str);
+}
+
+/**
+ * add_node_end - Add a new node at the end of the linked list.
+ * @head: Pointer to the head of the linked list.
+ * @str: The string to be stored in the new node.
+ * @len: Length of the string (not used in this placeholder implementation).
+ */
+void add_node_end(list_t **head, char *str, int len)
+{
+    list_t *new_node = (list_t *)malloc(sizeof(list_t));
+    if (new_node == NULL)
     {
-        _eputs("Incorrect number of arguments\n");
-        return (1);
+        perror("Error: Unable to allocate memory for new node.");
+        exit(EXIT_FAILURE);
     }
-    if (setenv(infor->argv[1], infor->argv[2], 1) == 0)
-        return (0);
-    return (1);
-}
 
-/**
- * unset_infor_t_variable - Remove an infor_t variable.
- * @infor: Structure containing potential arguments.
- * Return: Always 0
- */
-int unset_infor_t_variable(infor_t *infor)
-{
-    int i;
+    new_node->str = strdup(str);
+    new_node->next = NULL;
 
-    if (infor->argc == 1)
+    if (*head == NULL)
     {
-        _eputs("Too few arguments.\n");
-        return (1);
+        *head = new_node;
     }
-    for (i = 1; i <= infor->argc; i++)
-        unsetenv(infor->argv[i]);
-
-    return (0);
-}
-
-/**
- * populate_infor_t_list - Populates the infor_t linked list.
- * @infor: Structure containing potential arguments.
- * Return: Always 0
- */
-int populate_infor_t_list(infor_t *infor)
-{
-    list_t *node = NULL;
-    size_t i;
-
-    for (i = 0; infor->environ[i]; i++)
-        add_node_end(&node, infor->environ[i], 0);
-    infor->informent_list = node;
-    return (0);
+    else
+    {
+        list_t *current = *head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = new_node;
+    }
 }
 
