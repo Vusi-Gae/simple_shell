@@ -6,9 +6,9 @@
  *
  * Return: 1 if in interactive mode, 0 otherwise
  */
-int check_interactive_mode(ShellInfo_t *infor)
+int check_interactive_mode(infor_t *infor)
 {
-	return (isatty(STDIN_FILENO) && infor->read_fd <= 2);
+	return (isatty(STDIN_FILENO) && infor->readfd <= 2);
 }
 
 /**

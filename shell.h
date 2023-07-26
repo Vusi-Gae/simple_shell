@@ -119,6 +119,13 @@ int string_to_integer(char *str);
 int my_exit_shell(infor_t *infor);
 int change_current_directory(infor_t *infor);
 int show_help_message(infor_t *infor);
+int _erratoi(const char *str);
+void print_error(infor_t *infor, const char *msg);
+void _eputs(const char *str);
+void _eputchar(char c);
+char *_getenv(infor_t *infor, const char *name);
+int _strcmp(const char *s1, const char *s2);
+int _setenv(infor_t *infor, const char *name, const char *value);
 
 /* _builtin0.c */
 int display_history(infor_t *infor);
@@ -126,6 +133,14 @@ int unset_alias(infor_t *infor, char *alias_str);
 int set_alias(infor_t *infor, char *alias_str);
 int print_alias(list_t *alias_node);
 int manage_alias(infor_t *infor);
+void print_list(list_t *head);
+char *_strchr(const char *s, int c);
+list_t *add_node_end(list_t **head, char *str, int len);
+unsigned int get_node_index(list_t *head, list_t *node);
+list_t *node_starts_with(list_t *head, const char *str, char c);
+int delete_node_at_index(list_t **head, unsigned int index);
+void _putchar(char c);
+void _puts(const char *str);
 
 #endif /* _SHELL_H_ */
 
