@@ -87,7 +87,8 @@ int print_d(int input, int fd)
 }
 
 /**
- * convert_number - Converter function that converts a number to a specified base.
+ * convert_number - Converter function that converts
+ * a number to a specified base.
  * @num: The number to convert.
  * @base: The base to convert the number to.
  * @flags: Argument flags to specify conversion options.
