@@ -1,87 +1,88 @@
 #include "shell.h"
 
 /**
- * print_infor_t - Prints the current infor_t variables.
- * @infor: Structure containing potential arguments.
+ * print_current_environment - prints the current environment variables
+ * @info: Structure containing relevant information.
  * Return: Always 0
  */
-int print_infor_t(infor_t *infor)
+int print_current_environment(info_t *info)
 {
-    print_list_str(infor->informent_list);
-    return (0);
+	print_list_str(info->env);
+	return (0);
 }
 
 /**
- * get_infor_t_value - Gets the value of an infor_t variable.
- * @infor: Structure containing potential arguments.
- * @name: The name of the infor_t variable to retrieve.
- * Return: The value of the specified infor_t variable if found, otherwise returns NULL.
+ * get_environment_variable - gets the value of an environment variable
+ * @info: Structure containing relevant information.
+ * @name: Name of the environment variable to retrieve.
+ * Return: Pointer to the value of the environment variable,
+ * or NULL if not found.
  */
-char *get_infor_t_value(infor_t *infor, const char *name)
+char *get_environment_variable(info_t *info, const char *name)
 {
-    list_t *node = infor->informent_list;
-    char *value;
+	list_t *node = info->env;
+	char *value;
 
-    while (node)
-    {
-        value = starts_with(node->str, name);
-        if (value && *value)
-            return (value);
-        node = node->next;
-    }
-    return (NULL);
+	while (node)
+	{
+		value = starts_with(node->str, name);
+		if (value && *value)
+			return (value);
+		node = node->next;
+	}
+	return (NULL);
 }
 
 /**
- * set_infor_t_variable - Initialize a new infor_t variable or modify an existing one.
- * @infor: Structure containing potential arguments.
- * Return: Always 0 on success, or 1 if the number of arguments is incorrect.
- */
-int set_infor_t_variable(infor_t *infor)
-{
-    if (infor->argc != 3)
-    {
-        _eputs("Incorrect number of arguments\n");
-        return (1);
-    }
-    if (setenv(infor->argv[1], infor->argv[2], 1) == 0)
-        return (0);
-    return (1);
-}
-
-/**
- * unset_infor_t_variable - Remove an infor_t variable.
- * @infor: Structure containing potential arguments.
+ * set_environment_variable - Initialize a new environment variable
+ * or modify an existing one
+ * @info: Structure containing relevant information.
  * Return: Always 0
  */
-int unset_infor_t_variable(infor_t *infor)
+int set_environment_variable(info_t *info)
 {
-    int i;
-
-    if (infor->argc == 1)
-    {
-        _eputs("Too few arguments.\n");
-        return (1);
-    }
-    for (i = 1; i <= infor->argc; i++)
-        unsetenv(infor->argv[i]);
-
-    return (0);
+	if (info->argc != 3)
+	{
+		_eputs("Incorrect number of arguments\n");
+		return (1);
+	}
+	if (setenv_variable(info, info->argv[1], info->argv[2]))
+		return (0);
+	return (1);
 }
 
 /**
- * populate_infor_t_list - Populates the infor_t linked list.
- * @infor: Structure containing potential arguments.
+ * unset_environment_variable - Remove an environment variable
+ * @info: Structure containing relevant information.
  * Return: Always 0
  */
-int populate_infor_t_list(infor_t *infor)
+int unset_environment_variable(info_t *info)
 {
-    list_t *node = NULL;
-    size_t i;
+	int i;
 
-    for (i = 0; infor->environ[i]; i++)
-        add_node_end(&node, infor->environ[i], 0);
-    infor->informent_list = node;
-    return (0);
+	if (info->argc == 1)
+	{
+		_eputs("Too few arguments.\n");
+		return (1);
+	}
+	for (i = 1; i < info->argc; i++)
+		unsetenv_variable(info, info->argv[i]);
+
+	return (0);
 }
 
+/**
+ * populate_environment_list - populates the environment linked list
+ * @info: Structure containing relevant information.
+ * Return: Always 0
+ */
+int populate_environment_list(info_t *info)
+{
+	list_t *node = NULL;
+	size_t i;
+
+	for (i = 0; environ[i]; i++)
+		add_node_end(&node, environ[i], 0);
+	info->env = node;
+	return (0);
+}
