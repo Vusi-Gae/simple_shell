@@ -1,101 +1,88 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-// Definition of the custom data structure infor_t.
-typedef struct infor_t {
-    int argc;
-    char **argv;
-    char **environ;
-    // Add any other required members here.
-} infor_t;
-
-// Definition of the linked list node.
-typedef struct list_t {
-    char *str;
-    struct list_t *next;
-} list_t;
-
-// Function declarations.
-void print_list_str(list_t *head);
-char *starts_with(const char *str, const char *prefix);
-void _eputs(const char *str);
-void add_node_end(list_t **head, char *str, int len);
+#include "shell.h"
 
 /**
- * print_list_str - Print the strings in the linked list.
- * @head: Pointer to the head of the linked list.
+ * print_current_environment - prints the current environment variables
+ * @info: Structure containing relevant information.
+ * Return: Always 0
  */
-void print_list_str(list_t *head)
+int print_current_environment(info_t *info)
 {
-    list_t *current = head;
-    while (current != NULL)
-    {
-        printf("%s\n", current->str);
-        current = current->next;
-    }
+	print_list_str(info->env);
+	return (0);
 }
 
 /**
- * starts_with - Check if a string starts with a given prefix.
- * @str: The string to check.
- * @prefix: The prefix to search for.
- * Return: If the string starts with the prefix, return a pointer to the start of the prefix in the string.
- *         Otherwise, return NULL.
+ * get_environment_variable - gets the value of an environment variable
+ * @info: Structure containing relevant information.
+ * @name: Name of the environment variable to retrieve.
+ * Return: Pointer to the value of the environment variable,
+ * or NULL if not found.
  */
-char *starts_with(const char *str, const char *prefix)
+char *get_environment_variable(info_t *info, const char *name)
 {
-    size_t str_len = strlen(str);
-    size_t prefix_len = strlen(prefix);
+	list_t *node = info->env;
+	char *value;
 
-    if (str_len < prefix_len)
-        return NULL;
-
-    if (strncmp(str, prefix, prefix_len) == 0)
-        return (char *)str;
-
-    return NULL;
+	while (node)
+	{
+		value = starts_with(node->str, name);
+		if (value && *value)
+			return (value);
+		node = node->next;
+	}
+	return (NULL);
 }
 
 /**
- * _eputs - Print an error message to stderr.
- * @str: The error message string to print.
+ * set_environment_variable - Initialize a new environment variable
+ * or modify an existing one
+ * @info: Structure containing relevant information.
+ * Return: Always 0
  */
-void _eputs(const char *str)
+int set_environment_variable(info_t *info)
 {
-    fprintf(stderr, "%s", str);
+	if (info->argc != 3)
+	{
+		_eputs("Incorrect number of arguments\n");
+		return (1);
+	}
+	if (setenv_variable(info, info->argv[1], info->argv[2]))
+		return (0);
+	return (1);
 }
 
 /**
- * add_node_end - Add a new node at the end of the linked list.
- * @head: Pointer to the head of the linked list.
- * @str: The string to be stored in the new node.
- * @len: Length of the string (not used in this placeholder implementation).
+ * unset_environment_variable - Remove an environment variable
+ * @info: Structure containing relevant information.
+ * Return: Always 0
  */
-void add_node_end(list_t **head, char *str, int len)
+int unset_environment_variable(info_t *info)
 {
-    list_t *new_node = (list_t *)malloc(sizeof(list_t));
-    if (new_node == NULL)
-    {
-        perror("Error: Unable to allocate memory for new node.");
-        exit(EXIT_FAILURE);
-    }
+	int i;
 
-    new_node->str = strdup(str);
-    new_node->next = NULL;
+	if (info->argc == 1)
+	{
+		_eputs("Too few arguments.\n");
+		return (1);
+	}
+	for (i = 1; i < info->argc; i++)
+		unsetenv_variable(info, info->argv[i]);
 
-    if (*head == NULL)
-    {
-        *head = new_node;
-    }
-    else
-    {
-        list_t *current = *head;
-        while (current->next != NULL)
-        {
-            current = current->next;
-        }
-        current->next = new_node;
-    }
+	return (0);
 }
 
+/**
+ * populate_environment_list - populates the environment linked list
+ * @info: Structure containing relevant information.
+ * Return: Always 0
+ */
+int populate_environment_list(info_t *info)
+{
+	list_t *node = NULL;
+	size_t i;
+
+	for (i = 0; environ[i]; i++)
+		add_node_end(&node, environ[i], 0);
+	info->env = node;
+	return (0);
+}
