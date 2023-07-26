@@ -7,18 +7,18 @@
  */
 int _erratoi(char *str)
 {
-	int index = 0;
+	int ind = 0;
 	unsigned long int result = 0;
 
 	if (*str == '+')
-		str++; /* TODO: why does this make main return 255? */
+		str++;
 
-	for (index = 0; str[index] != '\0'; index++)
+	for (ind = 0; str[ind] != '\0'; ind++)
 	{
-		if (str[index] >= '0' && str[index] <= '9')
+		if (str[ind] >= '0' && str[ind] <= '9')
 		{
 			result *= 10;
-			result += (str[index] - '0');
+			result += (str[ind] - '0');
 			if (result > INT_MAX)
 				return (-1);
 		}
@@ -30,17 +30,17 @@ int _erratoi(char *str)
 
 /**
  * print_error - Prints an error message.
- * @info: Structure containing parameter & return info.
+ * @infor: Structure containing parameter & return info.
  * @error_type: String containing specified error type.
  * Return: Nothing.
  */
-void print_error(info_t *info, char *error_type)
+void print_error(infor_t *infor, char *error_type)
 {
-	_eputs(info->file_name);
+	_eputs(infor->file_name);
 	_eputs(": ");
-	print_d(info->line_count, STDERR_FILENO);
+	print_d(infor->line_count, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(info->argv[0]);
+	_eputs(infor->argv[0]);
 	_eputs(": ");
 	_eputs(error_type);
 }
@@ -54,7 +54,7 @@ void print_error(info_t *info, char *error_type)
 int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
-	int index, count = 0;
+	int ind, count = 0;
 	unsigned int absolute_value, current_value;
 
 	if (fd == STDERR_FILENO)
@@ -71,14 +71,14 @@ int print_d(int input, int fd)
 
 	current_value = absolute_value;
 
-	for (index = 1000000000; index > 1; index /= 10)
+	for (ind = 1000000000; ind > 1; ind /= 10)
 	{
-		if (absolute_value / index)
+		if (absolute_value / ind)
 		{
-			__putchar('0' + current_value / index);
+			__putchar('0' + current_value / ind);
 			count++;
 		}
-		current_value %= index;
+		current_value %= ind;
 	}
 	__putchar('0' + current_value);
 	count++;
@@ -129,13 +129,13 @@ char *convert_number(long int num, int base, int flags)
  */
 void remove_comments(char *buf)
 {
-	int index;
+	int ind;
 
-	for (index = 0; buf[index] != '\0'; index++)
+	for (ind = 0; buf[ind] != '\0'; ind++)
 	{
-		if (buf[index] == '#' && (!index || buf[index - 1] == ' '))
+		if (buf[ind] == '#' && (!ind || buf[ind - 1] == ' '))
 		{
-			buf[index] = '\0';
+			buf[ind] = '\0';
 			break;
 		}
 	}

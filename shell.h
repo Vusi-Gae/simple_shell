@@ -142,5 +142,25 @@ int delete_node_at_index(list_t **head, unsigned int index);
 void _putchar(char c);
 void _puts(const char *str);
 
+/* environ.c */
+int print_current_environment(infor_t *infor);
+char *get_environment_variable(infor_t *infor, const char *name);
+int set_environment_variable(infor_t *infor);
+int unset_environment_variable(infor_t *infor);
+int populate_environment_list(infor_t *infor);
+
+/* errors.c */
+void _eputs(char *string_to_print);
+int _eputchar(char character_to_write);
+int _putfd(char character_to_write, int fd);
+int _putsfd(char *string_to_print, int fd);
+
+/* errors1.c */
+int _erratoi(char *str);
+void print_error(infor_t *infor, char *error_type);
+int print_d(int input, int fd);
+char *convert_number(long int num, int base, int flags);
+void remove_comments(char *buf);
+
 #endif /* _SHELL_H_ */
 
