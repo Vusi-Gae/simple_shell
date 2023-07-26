@@ -143,7 +143,12 @@ void _putchar(char c);
 void _puts(const char *str);
 
 /* environ.c */
+void print_list(list_t *head);
+char *starts_with(const char *str, const char *prefix);
+int setenv_variable(infor_t *infor, const char *name, const char *value);
+void unsetenv_variable(infor_t *infor, const char *name);
 int print_current_environment(infor_t *infor);
+void print_list_str(list_t *head);
 char *get_environment_variable(infor_t *infor, const char *name);
 int set_environment_variable(infor_t *infor);
 int unset_environment_variable(infor_t *infor);
