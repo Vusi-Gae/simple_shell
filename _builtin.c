@@ -38,22 +38,27 @@ int my_exit_shell(infor_t *infor)
  */
 int change_current_directory(infor_t *infor)
 {
-    char *current_dir, *target_dir, buffer[1024];
-    int chdir_ret;
+	char *current_dir, *target_dir, buffer[1024];
+	int chdir_ret;
 
-    current_dir = getcwd(buffer, 1024);
-    if (!current_dir)
-        _puts("TODO: >>getcwd failure emsg here<<\n");
+		current_dir = getcwd(buffer, 1024);
+		if (!current_dir)
+			_puts("TODO: >>getcwd failure emsg here<<\n");
 
-    if (!infor->argv[1])
-        change_to_home_directory(infor, &target_dir, &chdir_ret);
-    else if (_strcmp(infor->argv[1], "-") == 0)
-        change_to_previous_directory(infor, &current_dir, &chdir_ret);
-    else
-        chdir_ret = chdir(infor->argv[1]);
+		if (!infor->argv[1])
+		{
+			change_to_home_directory(infor, &target_dir, &chdir_ret);
+		}
+		else if (_strcmp(infor->argv[1], "-") == 0)
+		change_to_previous_directory(infor, &current_dir, &chdir_ret);
 
-    handle_directory_change_results(infor, current_dir, target_dir, chdir_ret, buffer);
-    return 0;
+		else
+			chdir_ret = chdir(infor->argv[1]);
+
+		handle_directory_change_results
+			(infor, current_dir, target_dir, chdir_ret, buffer);
+
+	return (0);
 }
 
 /**
@@ -73,4 +78,3 @@ int show_help_message(infor_t *infor)
 		_puts(*arg_array); /* temp att_unused workaround */
 	return (0);
 }
-
