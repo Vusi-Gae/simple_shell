@@ -157,10 +157,12 @@ char *get_environment_variable(infor_t *infor, const char *name);
 int set_environment_variable(infor_t *infor);
 int unset_environment_variable(infor_t *infor);
 int populate_environment_list(infor_t *infor);
+void _aputs(const char *);
+int _aputchar(char);
 
 /* errors.c */
-void _eputs(const char *str);
-int _eputchar(char c);
+void _eputs(const char *);
+int _eputchar(char);
 int _putfd(char character_to_write, int fd);
 int _putsfd(char *string_to_print, int fd);
 
