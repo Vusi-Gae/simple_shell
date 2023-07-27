@@ -146,6 +146,7 @@ int delete_node_at_index(list_t **head, unsigned int index);
 void _putchar(char c);
 void _puts(const char *str);
 
+
 /* environ.c */
 void print_list(list_t *head);
 char *starts_with(const char *str, const char *prefix);
@@ -172,5 +173,15 @@ void print_error(infor_t *infor, const char *error_type);
 int print_d(int input, int fd);
 char *convert_number(long int num, int base, int flags);
 void remove_comments(char *buf);
+
+void read_history(infor_t *infor);
+void hsh(infor_t *infor, char **av);
+int populate_environment_list(infor_t *infor);
+
+/* exits.c */
+char *_strncpy(char *, char *, int);
+char *_strncat(char *, char *, int);
+char *_strchr0(char *, char);
+
 
 #endif /* _SHELL_H_ */
