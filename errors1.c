@@ -2,44 +2,44 @@
 
 /**
  * _erratoi - converts a string to an integer.
- * @s: the string to be converted.
+ * @t: the string to be converted.
  * Return: The converted integer value if the string contains valid numbers,
  *         0 if no numbers are found in the string,
  *         -1 on error (e.g. when the string is not a valid integer).
  */
-int _erratoi(char *s)
+int _erratoi(char *t)
 {
 	int j = 0;
-	unsigned long int result = 0;
+	unsigned long int res = 0;
 
-	if (*s == '+')
-		s++;  /* TODO: why does this make main return 255? */
-	for (j = 0;  s[j] != '\0'; j++)
+	if (*t == '+')
+		t++;
+	for (j = 0;  t[j] != '\0'; j++)
 	{
-		if (s[j] >= '0' && s[j] <= '9')
+		if (t[j] >= '0' && t[j] <= '9')
 		{
-			result *= 10;
-			result += (s[j] - '0');
-			if (result > INT_MAX)
+			res *= 10;
+			res += (t[j] - '0');
+			if (res > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (result);
+	return (res);
 }
 
 /**
  * print_error - Prints an error message based on the specified error type.
- * @info: A pointer to the parameter and return info struct.
- * @estr: The string containing the specified error type.
+ * @infor: A pointer to the parameter and return info struct.
+ * @_estr: The string containing the specified error type.
  *
  * Function prints an error message to the standard error stream based on the
  * error type specified in the input string @estr.
  *
  * Return: The function does not have a return value (void).
  */
-void print_error(info_t *infor, char *estr)
+void print_error(info_t *infor, char *_estr)
 {
 	_eputs(infor->fname);
 	_eputs(": ");
@@ -47,7 +47,7 @@ void print_error(info_t *infor, char *estr)
 	_eputs(": ");
 	_eputs(infor->argv[0]);
 	_eputs(": ");
-	_eputs(estr);
+	_eputs(_estr);
 }
 
 /**
@@ -95,12 +95,12 @@ int print_d(int input, int ffd)
 /**
  * convert_number - Converts a given num to a str representation in a specified base.
  * @_num: The number to be converted.
- * @base: The base to which the number will be converted
+ * @_base: The base to which the number will be converted
  * @flag: Flags or arguments for special formatting
  *
  * Return: A string representation of the converted number is returned.
  */
-char *convert_number(long int _num, int base, int flag)
+char *convert_number(long int _num, int _base, int flag)
 {
 	static char *array;
 	static char buffer[50];
@@ -119,8 +119,8 @@ char *convert_number(long int _num, int base, int flag)
 	*ptr = '\0';
 
 	do	{
-		*--ptr = array[n % base];
-		n /= base;
+		*--ptr = array[n % _base];
+		n /= _base;
 	} while (n != 0);
 
 	if (sign)

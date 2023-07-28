@@ -1,85 +1,88 @@
 #include "shell.h"
 
 /**
- * _strcpy - makes a copy of a string
- * @dest: destination
- * @src: source
- * Return: the pointer to the destination
+ * _strcpy - Copies a string from source to destination.
+ * @_dest: Destination buffer to store the copied string.
+ * @src: Source string to be copied.
+ *
+ * Return: The pointer to the destination buffer.
  */
 
-char *_strcpy(char *dest, char *src)
+char *_strcpy(char *_dest, char *src)
 {
 	int j = 0;
 
-	if (dest == src || src == 0)
-		return (dest);
+	if (_dest == src || src == 0)
+		return (_dest);
 	while (src[j])
 	{
-		dest[j] = src[j];
+		_dest[j] = src[j];
 		j++;
 	}
-	dest[j] = 0;
-	return (dest);
+	_dest[j] = 0;
+	return (_dest);
 }
 
 /**
- * _strdup - duplicates a string
- * @str: String to be duplicated
- * Return: The pointer to the duplicated string
+ * _strdup - Duplicates a string.
+ * @_str: String to be duplicated.
+ *
+ * Return: The pointer to the duplicated string or NULL on failure.
  */
 
-char *_strdup(const char *str)
+char *_strdup(const char *_str)
 {
 	int length = 0;
-	char *ret;
+	char *_ret;
 
-	if (str == NULL)
+	if (_str == NULL)
 		return (NULL);
-	while (*str++)
+	while (*_str++)
 		length++;
-	ret = malloc(sizeof(char) * (length + 1));
-	if (!ret)
+	_ret = malloc(sizeof(char) * (length + 1));
+	if (!_ret)
 		return (NULL);
 	for (length++; length--;)
-		ret[length] = *--str;
-	return (ret);
+		_ret[length] = *--_str;
+	return (_ret);
 }
 
 /**
- * _puts - printing an input string.
- * @str:string to be printed.
- * Return: None to be returned.
+ * _puts - Prints an input string to the standard output (stdout).
+ * @_str: String to be printed.
+ *
+ * Return: None.
  */
-void _puts(char *str)
+void _puts(char *_str)
 {
 	int j = 0;
 
-	if (!str)
+	if (!_str)
 		return;
-	while (str[j] != '\0')
+	while (_str[j] != '\0')
 	{
-		_putchar(str[j]);
+		_putchar(_str[j]);
 		j++;
 	}
 }
 
 /**
  * _putchar - Writes a character to the standard output (stdout).
- * @c: The character to print.
+ * @b: The character to print.
  * Return: On success, the function returns 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putchar(char c)
+int _putchar(char b)
 {
 	static int j;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || j >= WRITE_BUF_SIZE)
+	if (b == BUF_FLUSH || j >= WRITE_BUF_SIZE)
 	{
 		write(1, buf, j);
 		j = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[j++] = c;
+	if (b != BUF_FLUSH)
+		buf[j++] = b;
 	return (1);
 }

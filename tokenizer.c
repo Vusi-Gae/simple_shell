@@ -1,23 +1,24 @@
 #include "shell.h"
 
 /**
- * **strtow - splits a string into words. Repeat delimiters are ignored.
- * @str: input string to be split.
- * @d: delimeter string including char utilised to split the input string.
- * Return: pointer to an array of strings containing the split words or NULL on failure.
+ * **strtow - Splits a string into words using a delimiter. Repeat delimiters are ignored.
+ * @_str: Input string to be split.
+ * @d: Delimiter string including characters utilized to split the input string.
+ *
+ * Return: Pointer to an array of strings containing the split words or NULL on failure.
  */
 
-char **strtow(char *str, char *d)
+char **strtow(char *_str, char *d)
 {
-	int i, j, k, m, num_words = 0;
+	int y, j, k, m, num_words = 0;
 	char **s;
 
-	if (str == NULL || str[0] == 0)
+	if (_str == NULL || _str[0] == 0)
 		return (NULL);
 	if (!d)
 		d = " ";
-	for (i = 0; str[i] != '\0'; i++)
-		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
+	for (y = 0; _str[y] != '\0'; y++)
+		if (!is_delim(_str[y], d) && (is_delim(_str[y + 1], d) || !_str[y + 1]))
 			num_words++;
 
 	if (num_words == 0)
@@ -25,12 +26,12 @@ char **strtow(char *str, char *d)
 	s = malloc((1 + num_words) * sizeof(char *));
 	if (!s)
 		return (NULL);
-	for (i = 0, j = 0; j < num_words; j++)
+	for (y = 0, j = 0; j < num_words; j++)
 	{
-		while (is_delim(str[i], d))
-			i++;
+		while (is_delim(_str[y], d))
+			y++;
 		k = 0;
-		while (!is_delim(str[i + k], d) && str[i + k])
+		while (!is_delim(_str[y + k], d) && _str[y + k])
 			k++;
 		s[j] = malloc((k + 1) * sizeof(char));
 		if (!s[j])
@@ -41,7 +42,7 @@ char **strtow(char *str, char *d)
 			return (NULL);
 		}
 		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
+			s[j][m] = _str[y++];
 		s[j][m] = 0;
 	}
 	s[j] = NULL;
@@ -49,12 +50,13 @@ char **strtow(char *str, char *d)
 }
 
 /**
- * **strtow2 - splits a string into words using delimiter.
- * @str: the input string to be split.
- * @d: the delimeter char used to separate words in the input string.
- * Return: a pointer to an array of strings containing the split words or NULL on failure
+ * **strtow2 - Splits a string into words using a single delimiter character.
+ * @str: The input string to be split.
+ * @dl: The delimiter character used to separate words in the input string.
+ *
+ * Return: A pointer to an array of strings containing the split words or NULL on failure.
  */
-char **strtow2(char *str, char d)
+char **strtow2(char *str, char dl)
 {
 	int i, j, k, m, num_words = 0;
 	char **s;
@@ -62,8 +64,8 @@ char **strtow2(char *str, char d)
 	if (str == NULL || str[0] == 0)
 		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
-		if ((str[i] != d && str[i + 1] == d) ||
-				    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+		if ((str[i] != dl && str[i + 1] == dl) ||
+				    (str[i] != dl && !str[i + 1]) || str[i + 1] == dl)
 			num_words++;
 	if (num_words == 0)
 		return (NULL);
@@ -72,10 +74,10 @@ char **strtow2(char *str, char d)
 		return (NULL);
 	for (i = 0, j = 0; j < num_words; j++)
 	{
-		while (str[i] == d && str[i] != d)
+		while (str[i] == dl && str[i] != dl)
 			i++;
 		k = 0;
-		while (str[i + k] != d && str[i + k] && str[i + k] != d)
+		while (str[i + k] != dl && str[i + k] && str[i + k] != dl)
 			k++;
 		s[j] = malloc((k + 1) * sizeof(char));
 		if (!s[j])
