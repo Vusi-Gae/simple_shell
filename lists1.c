@@ -19,7 +19,7 @@ size_t list_len(const list_t *p)
 }
 
 /**
- * list_to_strings - Returns an array of strings of the list->str.
+ * list_to_strings - Returns an array of strings of list->str.
  * @header: Pointer to first node.
  *
  * Return: array of strings or NULL on failure
