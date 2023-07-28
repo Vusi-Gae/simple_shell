@@ -1,24 +1,25 @@
 #include "shell.h"
 
 /**
- * _erratoi - converts a string to an integer
- * @s: the string to be converted
- * Return: 0 if no numbers in string, converted number otherwise
- *       -1 on error
+ * _erratoi - converts a string to an integer.
+ * @s: the string to be converted.
+ * Return: The converted integer value if the string contains valid numbers,
+ *         0 if no numbers are found in the string,
+ *         -1 on error (e.g. when the string is not a valid integer).
  */
 int _erratoi(char *s)
 {
-	int i = 0;
+	int j = 0;
 	unsigned long int result = 0;
 
 	if (*s == '+')
 		s++;  /* TODO: why does this make main return 255? */
-	for (i = 0;  s[i] != '\0'; i++)
+	for (j = 0;  s[j] != '\0'; j++)
 	{
-		if (s[i] >= '0' && s[i] <= '9')
+		if (s[j] >= '0' && s[j] <= '9')
 		{
 			result *= 10;
-			result += (s[i] - '0');
+			result += (s[j] - '0');
 			if (result > INT_MAX)
 				return (-1);
 		}
@@ -29,34 +30,40 @@ int _erratoi(char *s)
 }
 
 /**
- * print_error - prints an error message
- * @info: the parameter & return info struct
- * @estr: string containing specified error type
- * Return: 0 if no numbers in string, converted number otherwise
- *        -1 on error
+ * print_error - Prints an error message based on the specified error type.
+ * @info: A pointer to the parameter and return info struct.
+ * @estr: The string containing the specified error type.
+ *
+ * Function prints an error message to the standard error stream based on the
+ * error type specified in the input string @estr.
+ *
+ * Return: The function does not have a return value (void).
  */
-void print_error(info_t *info, char *estr)
+void print_error(info_t *infor, char *estr)
 {
-	_eputs(info->fname);
+	_eputs(infor->fname);
 	_eputs(": ");
-	print_d(info->line_count, STDERR_FILENO);
+	print_d(infor->line_count, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(info->argv[0]);
+	_eputs(infor->argv[0]);
 	_eputs(": ");
 	_eputs(estr);
 }
 
 /**
- * print_d - function prints a decimal (integer) number (base 10)
- * @input: the input
- * @fd: the filedescriptor to write to
+ * print_d - Prints a decimal (integer) number (base 10).
+ * @input: The integer number to be printed.
+ * @fd: The file descriptor to write the output to.
  *
- * Return: number of characters printed
+ * Function prints the deci representation of the input integer number @input
+ * to the specified file descriptor @fd.
+ *
+ * Return: The number of characters printed as an integer.
  */
 int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
-	int i, count = 0;
+	int j, count = 0;
 	unsigned int _abs_, current;
 
 	if (fd == STDERR_FILENO)
@@ -70,14 +77,14 @@ int print_d(int input, int fd)
 	else
 		_abs_ = input;
 	current = _abs_;
-	for (i = 1000000000; i > 1; i /= 10)
+	for (j = 1000000000; j > 1; j /= 10)
 	{
-		if (_abs_ / i)
+		if (_abs_ / j)
 		{
-			__putchar('0' + current / i);
+			__putchar('0' + current / j);
 			count++;
 		}
-		current %= i;
+		current %= j;
 	}
 	__putchar('0' + current);
 	count++;
@@ -86,12 +93,12 @@ int print_d(int input, int fd)
 }
 
 /**
- * convert_number - converter function, a clone of itoa
- * @num: number
- * @base: base
- * @flags: argument flags
+ * convert_number - Converts a given num to a str representation in a specified base.
+ * @num: The number to be converted.
+ * @base: The base to which the number will be converted
+ * @flags: Flags or arguments for special formatting
  *
- * Return: string
+ * Return: A string representation of the converted number is returned.
  */
 char *convert_number(long int num, int base, int flags)
 {
@@ -123,18 +130,18 @@ char *convert_number(long int num, int base, int flags)
 
 /**
  * remove_comments - function replaces first instance of '#' with '\0'
- * @buf: address of the string to modify
+ * @buf: The address of the string to modify
  *
- * Return: Always 0;
+ * Return: Always returns 0.
  */
-void remove_comments(char *buf)
+void remove_comments(char *buff)
 {
-	int i;
+	int j;
 
-	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+	for (i = 0; buff[j] != '\0'; j++)
+		if (buff[j] == '#' && (!j || buff[j - 1] == ' '))
 		{
-			buf[i] = '\0';
+			buff[j] = '\0';
 			break;
 		}
 }
