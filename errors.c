@@ -60,26 +60,26 @@ int _putfd(char ch, int fdd)
 		j = 0;
 	}
 	if (ch != BUF_FLUSH)
-		buf[i++] = ch;
+		buf[j++] = ch;
 	return (1);
 }
 
 /**
- * _putsfd - prints an input string
- * @str: the string to be printed
- * @fd: the filedescriptor to write to
+ * _putsfd - Prints an input string to the given file descriptor (fd).
+ * @_str: The string to be printed.
+ * @ffd: The file descriptor to write to.
  *
- * Return: the number of chars put
+ * Return: The number of characters written.
  */
-int _putsfd(char *str, int fd)
+int _putsfd(char *_str, int ffd)
 {
-	int i = 0;
+	int j = 0;
 
-	if (!str)
+	if (!_str)
 		return (0);
-	while (*str)
+	while (*_str)
 	{
-		i += _putfd(*str++, fd);
+		j += _putfd(*_str++, ffd);
 	}
-	return (i);
+	return (j);
 }
