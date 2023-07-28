@@ -3,7 +3,7 @@
 /**
  * main - Entry point of the shell.
  * @_ac: Argument count.
- * @_av: Argument vector.
+ * @_av: the Argument vector.
  *
  * Return: 0 on success, 1 on error.
  */
