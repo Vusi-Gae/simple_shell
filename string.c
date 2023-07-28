@@ -66,7 +66,7 @@ char *starts_with(const char *_haystack, const char *_needle)
  * @_dest: The destination buffer where the source string will be appended.
  * @_src: The source buffer, containing the string to be appended.
  *
- * Return: A pointer to the destination buffer.
+ * Return: pointer to the destination buffer.
  */
 char *_strcat(char *_dest, char *_src)
 {
