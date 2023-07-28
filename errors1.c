@@ -53,20 +53,20 @@ void print_error(info_t *infor, char *estr)
 /**
  * print_d - Prints a decimal (integer) number (base 10).
  * @input: The integer number to be printed.
- * @fd: The file descriptor to write the output to.
+ * @ffd: The file descriptor to write the output to.
  *
  * Function prints the deci representation of the input integer number @input
  * to the specified file descriptor @fd.
  *
  * Return: The number of characters printed as an integer.
  */
-int print_d(int input, int fd)
+int print_d(int input, int ffd)
 {
 	int (*__putchar)(char) = _putchar;
 	int j, count = 0;
 	unsigned int _abs_, current;
 
-	if (fd == STDERR_FILENO)
+	if (ffd == STDERR_FILENO)
 		__putchar = _eputchar;
 	if (input < 0)
 	{
@@ -94,27 +94,27 @@ int print_d(int input, int fd)
 
 /**
  * convert_number - Converts a given num to a str representation in a specified base.
- * @num: The number to be converted.
+ * @_num: The number to be converted.
  * @base: The base to which the number will be converted
- * @flags: Flags or arguments for special formatting
+ * @flag: Flags or arguments for special formatting
  *
  * Return: A string representation of the converted number is returned.
  */
-char *convert_number(long int num, int base, int flags)
+char *convert_number(long int _num, int base, int flag)
 {
 	static char *array;
 	static char buffer[50];
 	char sign = 0;
 	char *ptr;
-	unsigned long n = num;
+	unsigned long n = _num;
 
-	if (!(flags & CONVERT_UNSIGNED) && num < 0)
+	if (!(flag & CONVERT_UNSIGNED) && _num < 0)
 	{
-		n = -num;
+		n = -_num;
 		sign = '-';
 
 	}
-	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	array = flag & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 	ptr = &buffer[49];
 	*ptr = '\0';
 
@@ -130,7 +130,7 @@ char *convert_number(long int num, int base, int flags)
 
 /**
  * remove_comments - function replaces first instance of '#' with '\0'
- * @buf: The address of the string to modify
+ * @buff: The address of the string to modify
  *
  * Return: Always returns 0.
  */
@@ -138,7 +138,7 @@ void remove_comments(char *buff)
 {
 	int j;
 
-	for (i = 0; buff[j] != '\0'; j++)
+	for (j = 0; buff[j] != '\0'; j++)
 		if (buff[j] == '#' && (!j || buff[j - 1] == ' '))
 		{
 			buff[j] = '\0';
