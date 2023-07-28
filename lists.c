@@ -34,7 +34,7 @@ list_t *add_node(list_t **_head, const char *str, int num)
 }
 
 /**
- * add_node_end - Adds a node to the end of the list.
+ * add_node_end - Adds a node to the end of list.
  * @header: Address of ptr to head node.
  * @str: String to be stored in the node.
  * @num: node index used by history
