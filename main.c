@@ -1,44 +1,50 @@
 #include "shell.h"
 
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
+ * main - Entry point of the shell.
+ * @_ac: Argument count.
+ * @_av: Argument vector.
  *
- * Return: 0 on success, 1 on error
+ * Return: 0 on success, 1 on error.
  */
-int main(int ac, char **av)
+int main(int _ac, char **_av)
 {
+	/* Initialize the info_t struct with default values */
 	info_t info[] = { INFO_INIT };
-	int fd = 2;
+	int ffd = 2;
 
+	/* Redirect stderr to /dev/null (file descriptor 3) */
 	asm ("mov %1, %0\n\t"
 			"add $3, %0"
-			: "=r" (fd)
-			: "r" (fd));
+			: "=r" (ffd)
+			: "r" (ffd));
 
-	if (ac == 2)
+	/* Check if a script file is provided as an argument */
+	if (_ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
+		/* Open the script file in read-only mode */
+		ffd = open(_av[1], O_RDONLY);
+		if (ffd == -1)
 		{
+			/* Check for specific error conditions */
 			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_eputs(av[0]);
-				_eputs(": 0: Can't open ");
-				_eputs(av[1]);
+				_eputs(_av[0]);
+				_eputs(": 0: Can't Open ");
+				_eputs(_av[1]);
 				_eputchar('\n');
 				_eputchar(BUF_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = fd;
+		/* Set the read file descriptor for script execution */
+		info->readfd = ffd;
 	}
 	populate_env_list(info);
 	read_history(info);
-	hsh(info, av);
+	hsh(info, _av);
 	return (EXIT_SUCCESS);
 }
