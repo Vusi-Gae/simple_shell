@@ -102,7 +102,7 @@ int read_history(info_t *info)
 }
 
 /**
- * build_history_list - Adds an entry to the history linked list.
+ * build_history_list - Adds an entry to the history linked list
  * @info: Pointer to the parameter struct.
  * @buf: Buffer containing the command.
  * @linecount: The history linecount (histcount).
