@@ -2,39 +2,39 @@
 
 /**
  * is_chain - Determines if the current char in buffer is a chain delimiter
- * @info: The parameter struct
+ * @infor: The parameter struct
  * @buf: The character buffer
- * @p: Address of the current position in buf
+ * @ptr: Address of the current position in buf
  *
  * Return: 1 if it is a chain delimiter, 0 otherwise
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int is_chain(info_t *infor, char *buf, size_t *ptr)
 {
-    size_t j = *p;
+    size_t i = *ptr;
 
     if (buf[i] == '|' && buf[i + 1] == '|')
     {
         buf[i] = 0;
         i++;
-        info->cmd_buf_type = CMD_OR;
+        infor->cmd_buf_type = CMD_OR;
     }
     else if (buf[i] == '&' && buf[i + 1] == '&')
     {
         buf[i] = 0;
         i++;
-        info->cmd_buf_type = CMD_AND;
+        infor->cmd_buf_type = CMD_AND;
     }
-    else if (buf[i] == ';') /* Found the end of this command */
+    else if (buf[i] == ';')
     {
-        buf[i] = 0; /* Replace semicolon with null */
-        info->cmd_buf_type = CMD_CHAIN;
+        buf[i] = 0;
+        infor->cmd_buf_type = CMD_CHAIN;
     }
     else
     {
         return (0);
     }
 
-    *p = j;
+    *ptr = i;
     return (1);
 }
 
@@ -50,14 +50,14 @@ int is_chain(info_t *info, char *buf, size_t *p)
  */
 void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
-    size_t i = *p;
+    size_t f = *p;
 
     if (info->cmd_buf_type == CMD_AND)
     {
         if (info->status)
         {
-            buf[j] = 0;
-            i = len;
+            buf[i] = 0;
+            f = len;
         }
     }
 
@@ -65,12 +65,12 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
     {
         if (!info->status)
         {
-            buf[j] = 0;
-            i = len;
+            buf[i] = 0;
+            f = len;
         }
     }
 
-    *p = i;
+    *p = f;
 }
 
 /**
@@ -104,40 +104,40 @@ int replace_alias(info_t *info)
 
 /**
  * replace_vars - Replaces variables in the tokenized string
- * @info: The parameter struct
+ * @infor: The parameter struct
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int replace_vars(info_t *info)
+int replace_vars(info_t *infor)
 {
     int j = 0;
-    list_t *node;
+    list_t *_node;
 
-    for (j = 0; info->argv[j]; j++)
+    for (j = 0; infor->argv[j]; j++)
     {
-        if (info->argv[j][0] != '$' || !info->argv[j][1])
+        if (infor->argv[j][0] != '$' || !infor->argv[j][1])
             continue;
 
-        if (!_strcmp(info->argv[j], "$?"))
+        if (!_strcmp(infor->argv[j], "$?"))
         {
-            replace_string(&(info->argv[j]), _strdup(convert_number(info->status, 10, 0)));
+            replace_string(&(infor->argv[j]), _strdup(convert_number(infor->status, 10, 0)));
             continue;
         }
 
-        if (!_strcmp(info->argv[j], "$$"))
+        if (!_strcmp(infor->argv[j], "$$"))
         {
-            replace_string(&(info->argv[j]), _strdup(convert_number(getpid(), 10, 0)));
+            replace_string(&(infor->argv[j]), _strdup(convert_number(getpid(), 10, 0)));
             continue;
         }
 
-        node = node_starts_with(info->env, &info->argv[j][1], '=');
-        if (node)
+        _node = node_starts_with(infor->env, &infor->argv[j][1], '=');
+        if (_node)
         {
-            replace_string(&(info->argv[j]), _strdup(_strchr(node->str, '=') + 1));
+            replace_string(&(infor->argv[j]), _strdup(_strchr(_node->str, '=') + 1));
             continue;
         }
 
-        replace_string(&info->argv[j], _strdup(""));
+        replace_string(&infor->argv[j], _strdup(""));
     }
 
     return (0);
@@ -145,15 +145,15 @@ int replace_vars(info_t *info)
 
 /**
  * replace_string - Replaces a string
- * @old: Address of the old string
- * @new: New string
+ * @_old: Address of the old string
+ * @_new: New string
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int replace_string(char **old, char *new)
+int replace_string(char **_old, char *_new)
 {
-    free(*old);
-    *old = new;
+    free(*_old);
+    *_old = _new;
     return (1);
 }
 

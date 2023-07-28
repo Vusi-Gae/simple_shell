@@ -1,66 +1,66 @@
 #include "shell.h"
 
 /**
- * _eputs - prints an input string
- * @str: the string to be printed
+ * _eputs - Prints an input string to the standard error (stderr).
+ * @_str: The string to be printed.
  *
- * Return: Nothing
+ * Return: Nothing.
  */
-void _eputs(char *str)
+void _eputs(char *_str)
 {
-	int i = 0;
+	int j = 0;
 
-	if (!str)
+	if (!_str)
 		return;
-	while (str[i] != '\0')
+	while (_str[j] != '\0')
 	{
-		_eputchar(str[i]);
-		i++;
+		_eputchar(_str[j]);
+		j++;
 	}
 }
 
 /**
- * _eputchar - writes the character c to stderr
- * @c: The character to print
+ * _eputchar - Writes the character c to the standard error (stderr).
+ * @ch: The character to print.
  *
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ *         On error, -1 is returned, and errno is set appropriately.
  */
-int _eputchar(char c)
+int _eputchar(char ch)
 {
-	static int i;
+	static int j;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (ch == BUF_FLUSH || j >= WRITE_BUF_SIZE)
 	{
-		write(2, buf, i);
-		i = 0;
+		write(2, buf, j);
+		j = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
+	if (ch != BUF_FLUSH)
+		buf[j++] = ch;
 	return (1);
 }
 
 /**
- * _putfd - writes the character c to given fd
- * @c: The character to print
- * @fd: The filedescriptor to write to
+ * _putfd - Writes the character c to the given file descriptor (fd).
+ * @ch: The character to print.
+ * @fdd: The file descriptor to write to.
  *
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ *         On error, -1 is returned, and errno is set appropriately.
  */
-int _putfd(char c, int fd)
+int _putfd(char ch, int fdd)
 {
-	static int i;
+	static int j;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (ch == BUF_FLUSH || j >= WRITE_BUF_SIZE)
 	{
-		write(fd, buf, i);
-		i = 0;
+		write(fdd, buf, j);
+		j = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
+	if (ch != BUF_FLUSH)
+		buf[i++] = ch;
 	return (1);
 }
 
