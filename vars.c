@@ -4,7 +4,7 @@
  * is_chain - Determines if the current char in buffer is a chain delimiter
  * @info: Parameter struct
  * @buff: Character buffer
- * @p: Address of the current position in buff
+ * @p: Address of the current position in buff.
  *
  * Return: 1 if it is a chain delimiter or 0 otherwise
  */
