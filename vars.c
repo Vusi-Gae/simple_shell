@@ -2,32 +2,31 @@
 
 /**
  * is_chain - Determines if the current char in buffer is a chain delimiter
- * @info: The parameter struct
- * @buf: The character buffer
+ * @info: Parameter struct
+ * @buf: Character buffer
  * @p: Address of the current position in buf
- *
- * Return: 1 if it is a chain delimiter, 0 otherwise
+ * Return: 1 if it is a chain delimiter or 0 otherwise
  */
-int is_chain(info_t *info, char *buf, size_t *p)
+int is_chain(info_t *info, char *buff, size_t *p)
 {
     size_t j = *p;
 
-    if (buf[i] == '|' && buf[i + 1] == '|')
+    if (buff[i] == '|' && buff[i + 1] == '|')
     {
-        buf[i] = 0;
+        buff[i] = 0;
         i++;
-        info->cmd_buf_type = CMD_OR;
+        info->cmd_buff_type = CMD_OR;
     }
-    else if (buf[i] == '&' && buf[i + 1] == '&')
+    else if (buff[i] == '&' && buff[i + 1] == '&')
     {
-        buf[i] = 0;
+        buff[i] = 0;
         i++;
-        info->cmd_buf_type = CMD_AND;
+        info->cmd_buff_type = CMD_AND;
     }
-    else if (buf[i] == ';') /* Found the end of this command */
+    else if (buff[i] == ';') /* Found the end of this command */
     {
-        buf[i] = 0; /* Replace semicolon with null */
-        info->cmd_buf_type = CMD_CHAIN;
+        buff[i] = 0; /* Replace semicolon with null */
+        info->cmd_buff_type = CMD_CHAIN;
     }
     else
     {
@@ -40,32 +39,31 @@ int is_chain(info_t *info, char *buf, size_t *p)
 
 /**
  * check_chain - Checks whether we continue chaining based on last status
- * @info: The parameter struct
- * @buf: The character buffer
+ * @info: Parameter struct
+ * @buf: Character buffer
  * @p: Address of the current position in buf
- * @i: Starting position in buf
- * @len: Length of buf
- *
+ * @i: The starting position in buff
+ * @len: Length of buff
  * Return: Void
  */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void check_chain(info_t *info, char *buff, size_t *p, size_t i, size_t len)
 {
     size_t i = *p;
 
-    if (info->cmd_buf_type == CMD_AND)
+    if (info->cmd_buff_type == CMD_AND)
     {
         if (info->status)
         {
-            buf[j] = 0;
+            buff[j] = 0;
             i = len;
         }
     }
 
-    if (info->cmd_buf_type == CMD_OR)
+    if (info->cmd_buff_type == CMD_OR)
     {
         if (!info->status)
         {
-            buf[j] = 0;
+            buff[j] = 0;
             i = len;
         }
     }
@@ -76,8 +74,7 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 /**
  * replace_alias - Replaces an alias in the tokenized string
  * @info: The parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced or 0 otherwise
  */
 int replace_alias(info_t *info)
 {
@@ -105,8 +102,7 @@ int replace_alias(info_t *info)
 /**
  * replace_vars - Replaces variables in the tokenized string
  * @info: The parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced or 0 otherwise
  */
 int replace_vars(info_t *info)
 {
@@ -147,8 +143,7 @@ int replace_vars(info_t *info)
  * replace_string - Replaces a string
  * @old: Address of the old string
  * @new: New string
- *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced or 0 otherwise
  */
 int replace_string(char **old, char *new)
 {
