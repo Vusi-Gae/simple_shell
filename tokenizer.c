@@ -2,7 +2,7 @@
 
 /**
  * **strtow - Splits a string into words using a delimiter. Repeat delimiters are ignored.
- * @_str: Input string to be split.
+ * @_str: Thr Input string to be split.
  * @d: Delimiter string including characters utilized to split the input string.
  *
  * Return: Pointer to an array of strings containing the split words or NULL on failure.
