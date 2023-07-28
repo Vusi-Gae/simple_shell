@@ -84,7 +84,7 @@ int find_builtin(info_t *infor)
  * find_cmd - Searches for a command in the dir listed in the PATH enviro var.
  * @infor: A pointer to the parameter and return info structure.
  *
- * Return: This function returns void.
+ * Return: This function returns void
  */
 void find_cmd(info_t *infor)
 {
